@@ -1,16 +1,29 @@
-public class Edge {
-    private String startId;
-    private String endId;
+public class Edge extends Node {
+    private int startVertexIndex;
+    private int endVertexIndex;
     private boolean pathOpen = true;
 
-    public Edge(String startId, String endId){
-        this.startId = startId;
-        this.endId = endId;
-    }
+    public Edge(int startVertexIndex, int endVertexIndex, Edge next){
+        super(next);
+        this.startVertexIndex = startVertexIndex;
+        this.endVertexIndex = endVertexIndex;
+    } // end constructor
+
+    public void setData(int startVertexIndex, int endVertexIndex){
+        this.startVertexIndex = startVertexIndex;
+        this.endVertexIndex = endVertexIndex;
+    } // end setData
+
+    public String getData(){
+        String info = "startVertexIndex: " + this.startVertexIndex;
+        info += "\nendVertexIndex: " + this.endVertexIndex;
+        info += "\npathOpen: " + this.pathOpen;
+        return info;
+    } // end getData
 
     public boolean isPathOpen(){
         return this.pathOpen;
-    }
+    } // end isPathOpen
 
     public void togglePath(){
         if(this.pathOpen == true){
@@ -18,19 +31,12 @@ public class Edge {
         } else if (this.pathOpen == false){
             this.pathOpen = true;
         }
-    }
-
-    public String getInfo(){
-        String info = "startId: " + this.startId;
-        info += "\nendId: " + this.endId;
-        info += "\npathOpen: " + this.pathOpen;
-        return info;
-    }
+    } // end togglePath
 
     public static void main(String[] args){
-        Edge e = new Edge("V1", "V2");
-        System.out.println(e.getInfo());
-    }
-
+        Edge e = new Edge(0, 1, null);
+        System.out.println(e.getData());
+        System.out.println("Next node: " + e.getNext());
+    } // end main
 
 }// end Edge
