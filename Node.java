@@ -1,16 +1,17 @@
-public abstract class Node {
+// use generic because Node might be different object type than just Node
+public abstract class Node<T> {
     // the node that will come after this one
-    protected Node next;
+    protected T next;
 
-    Node(Node next){
+    Node(T next){
         this.next = next;
     } // end constructor
 
-    public void setNext(Node next){
+    public void setNext(T next){
         this.next = next;
     } // end setNext
 
-    public Node getNext(){
+    public T getNext(){
         return this.next;
     } // end getNext
 

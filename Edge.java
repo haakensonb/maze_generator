@@ -1,7 +1,13 @@
-public class Edge extends Node {
+public class Edge extends Node<Edge> {
     private int startVertexIndex;
     private int endVertexIndex;
     private boolean pathOpen = true;
+
+    public Edge(){
+        super(null);
+        this.startVertexIndex = 0;
+        this.endVertexIndex = 0;
+    } // end null parameter constructor
 
     public Edge(int startVertexIndex, int endVertexIndex, Edge next){
         super(next);
