@@ -33,6 +33,12 @@ public class Vertex {
         }
     } // end getRandomClosedPath
 
+    public void getEdgesOverview(){
+        for(int i=0; i < this.edges.size(); i++){
+            System.out.println(this.edges.get(i).getData());
+        }
+    } // end getEdgesOverview
+
     public static void main(String[] args){
         Vertex v1 = new Vertex();
         v1.addEdge("V1", "V2");
