@@ -52,7 +52,7 @@ public class Vertex {
     } // end getRandomClosedPath
 
     // not the most efficient way
-    public void closeEdgePath(String startVertex, String endVertex){
+    public void toggleEdgePathOpen(String startVertex, String endVertex){
         for(int i=0; i < this.edges.size(); i++){
             Edge currentEdge = this.edges.get(i);
             if(currentEdge.getStartVertex().equals(startVertex) && currentEdge.getEndVertex().equals(endVertex)){
@@ -60,7 +60,7 @@ public class Vertex {
             }
         }
 
-    } // end closeEdgePath
+    } // end toggleEdgePathOpen
 
     public void getEdgesOverview(){
         for(int i=0; i < this.edges.size(); i++){
