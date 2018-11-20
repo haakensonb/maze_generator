@@ -40,6 +40,10 @@ public class Edge {
         }
     } // end togglePath
 
+    public void openPath(){
+        this.pathOpen = true;
+    } // end openPath
+
     public static void main(String[] args){
         Edge e = new Edge("V0", "V1");
         System.out.println(e.getData());

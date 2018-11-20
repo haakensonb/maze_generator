@@ -56,7 +56,8 @@ public class Vertex {
         for(int i=0; i < this.edges.size(); i++){
             Edge currentEdge = this.edges.get(i);
             if(currentEdge.getStartVertex().equals(startVertex) && currentEdge.getEndVertex().equals(endVertex)){
-                currentEdge.togglePath();
+                // currentEdge.togglePath();
+                currentEdge.openPath();
             }
         }
 

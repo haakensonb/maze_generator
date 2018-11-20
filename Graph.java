@@ -105,15 +105,18 @@ public class Graph {
         } // end for loop
     } // end buildGridGraph
 
-    public void createMazeWithDFS(String currentVertexId, String oldVertexId){
+    public void createMazeWithDFS(String currentVertexId){
 
         Vertex currentVertex = this.vertices.get(currentVertexId);
         // visit the current vertex
-        currentVertex.visit();
+        // currentVertex.visit();
+
         // push current vertex to stack
         // this.visitedVertices.push(currentVertexId);
         // open path back to old vertex
-        currentVertex.toggleEdgePathOpen(oldVertexId, currentVertexId);
+        // currentVertex.toggleEdgePathOpen(oldVertexId, currentVertexId);
+
+
 
         boolean keepGoing = true;
         while(keepGoing){
@@ -122,6 +125,8 @@ public class Graph {
             if(this.someVerticesNotVisited() == false){
                 keepGoing = false;
             } else {
+
+                currentVertex.visit();
                 String destinationVertexId = currentVertex.getRandomClosedPath();
 
                 // if there are closed paths
@@ -131,15 +136,20 @@ public class Graph {
                     this.visitedVertices.push(currentVertexId);
                     // open path from this vertex to new Vertex
                     currentVertex.toggleEdgePathOpen(currentVertexId, destinationVertexId);
+
+                    Vertex destVertex = this.vertices.get(destinationVertexId);
+                    destVertex.toggleEdgePathOpen(destinationVertexId, currentVertexId);
+
                     // get a new currentVertex
                     // currentVertex = vertices.get(destinationVertexId);
-                    createMazeWithDFS(destinationVertexId, currentVertexId);
+                    createMazeWithDFS(destinationVertexId);
 
                 } else {
                     if(!this.visitedVertices.isEmpty()){
                         String poppedId = this.visitedVertices.pop();
-                        // currentVertex = poppedVertex;
-                        createMazeWithDFS(poppedId, currentVertexId);
+                        Vertex poppedVertex = this.vertices.get(poppedId);
+                        currentVertex = poppedVertex;
+                        // createMazeWithDFS(poppedId, currentVertexId);
                     }
                 } // end if/else
             } // end else
@@ -163,12 +173,13 @@ public class Graph {
         // Graph g = new Graph(4, 3);
         Graph g = new Graph(4, 4);
         // System.out.println(g.areAllVerticesVisited());
-        g.createMazeWithDFS("V0", null);
+        g.createMazeWithDFS("V0");
 
 
         // iterate through the vertices using for each loop
         for(Map.Entry<String, Vertex> vertex : g.vertices.entrySet()){
             System.out.println("Vertex: " + vertex.getKey());
+            System.out.println("Visited: " + vertex.getValue().isVisited());
             vertex.getValue().getEdgesOverview();
             System.out.println();
         }
