@@ -4,11 +4,29 @@ import java.util.Random;
 public class Vertex {
     private int x;
     private int y;
+    private boolean visited;
+    private String vertexId;
     private ArrayList<Edge> edges;
 
-    public Vertex(){
+    public Vertex(String vertexId){
+        this.vertexId = vertexId;
+        this.visited = false;
         this.edges = new ArrayList<Edge>();
     } // end null parameter constructor
+
+    public String getId(){
+        return this.vertexId;
+    } // end getId
+
+    public void visit(){
+        if(this.visited == false){
+            this.visited = true;
+        }
+    } // end visit 
+
+    public boolean isVisited(){
+        return this.visited;
+    } // end isVisited
 
     public void addEdge(String startVertex, String endVertext){
         Edge edge = new Edge(startVertex, endVertext);
@@ -33,6 +51,17 @@ public class Vertex {
         }
     } // end getRandomClosedPath
 
+    // not the most efficient way
+    public void closeEdgePath(String startVertex, String endVertex){
+        for(int i=0; i < this.edges.size(); i++){
+            Edge currentEdge = this.edges.get(i);
+            if(currentEdge.getStartVertex().equals(startVertex) && currentEdge.getEndVertex().equals(endVertex)){
+                currentEdge.togglePath();
+            }
+        }
+
+    } // end closeEdgePath
+
     public void getEdgesOverview(){
         for(int i=0; i < this.edges.size(); i++){
             System.out.println(this.edges.get(i).getData());
@@ -40,7 +69,7 @@ public class Vertex {
     } // end getEdgesOverview
 
     public static void main(String[] args){
-        Vertex v1 = new Vertex();
+        Vertex v1 = new Vertex("V1");
         v1.addEdge("V1", "V2");
         v1.addEdge("V1", "V3");
         v1.addEdge("V1", "V4");

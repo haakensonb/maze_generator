@@ -13,7 +13,7 @@ public class StringStack {
 
     public String pop(){
         String value;
-        if(this.topOfStack == null){
+        if(this.isEmpty()){
             value = "stack empty";
         } else {
             value = this.topOfStack.getData();
@@ -21,6 +21,14 @@ public class StringStack {
         }
         return value;
     } // end pop
+
+    public boolean isEmpty(){
+        if(this.topOfStack == null){
+            return true;
+        } else {
+            return false;
+        }
+    } // end isEmpty
 
     public static void main(String[] args){
         StringStack s = new StringStack();

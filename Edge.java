@@ -20,6 +20,10 @@ public class Edge {
         return info;
     } // end getData
 
+    public String getStartVertex(){
+        return this.startVertex;
+    } // getStartVertex
+
     public String getEndVertex(){
         return this.endVertex;
     } // end getEndVertex
