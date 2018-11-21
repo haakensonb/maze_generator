@@ -105,18 +105,11 @@ public class Graph {
         } // end for loop
     } // end buildGridGraph
 
+    // not sure if working correctly
     public void createMazeWithDFS(String currentVertexId){
 
+        // store the current vertex
         Vertex currentVertex = this.vertices.get(currentVertexId);
-        // visit the current vertex
-        // currentVertex.visit();
-
-        // push current vertex to stack
-        // this.visitedVertices.push(currentVertexId);
-        // open path back to old vertex
-        // currentVertex.toggleEdgePathOpen(oldVertexId, currentVertexId);
-
-
 
         boolean keepGoing = true;
         while(keepGoing){
@@ -124,32 +117,39 @@ public class Graph {
             // meaning all the vertices have been visited
             if(this.someVerticesNotVisited() == false){
                 keepGoing = false;
+            // otherwise there are still some vertices that have not been visited yet
             } else {
-
+                // visit the current vertex
                 currentVertex.visit();
+                // go through the edges on this vertex and randomly choose on that isn't already open
+                // take the id of the destination vertex for the edge and store it
                 String destinationVertexId = currentVertex.getRandomClosedPath();
 
-                // if there are closed paths
-                // string should maybe be changed to enumeration later
+                // if there are still closed paths to choose
                 if(!destinationVertexId.equals("all paths open")){
-                    
+                    // put the id of the current vertex on the stack
                     this.visitedVertices.push(currentVertexId);
-                    // open path from this vertex to new Vertex
+                    // open path from this vertex to the destination vertex
                     currentVertex.toggleEdgePathOpen(currentVertexId, destinationVertexId);
-
+                    // grab and store the destination vertex
                     Vertex destVertex = this.vertices.get(destinationVertexId);
+                    // open a path from the destination vertex to the current vertex
+                    // now the path should be bidirectional
                     destVertex.toggleEdgePathOpen(destinationVertexId, currentVertexId);
 
-                    // get a new currentVertex
-                    // currentVertex = vertices.get(destinationVertexId);
+                    // make recursive call using destination vertex
                     createMazeWithDFS(destinationVertexId);
 
+                // otherwise there are no closed paths to open
                 } else {
+                    // if there is something on the stack
                     if(!this.visitedVertices.isEmpty()){
+                        // grab the id stored on the top of the stack
                         String poppedId = this.visitedVertices.pop();
+                        // get the vertex associated with the id
                         Vertex poppedVertex = this.vertices.get(poppedId);
+                        // backtrack by setting the current vertex to whatever was just pulled off the stack
                         currentVertex = poppedVertex;
-                        // createMazeWithDFS(poppedId, currentVertexId);
                     }
                 } // end if/else
             } // end else
@@ -170,9 +170,7 @@ public class Graph {
     } // end areAllVerticesVisited
 
     public static void main(String[] args){
-        // Graph g = new Graph(4, 3);
         Graph g = new Graph(4, 4);
-        // System.out.println(g.areAllVerticesVisited());
         g.createMazeWithDFS("V0");
 
 
