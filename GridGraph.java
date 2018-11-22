@@ -10,15 +10,18 @@ public class GridGraph extends Graph {
     public void buildGridGraph(int numOfRows, int numOfCols){
         int totalVertices = numOfRows * numOfCols;
         int currentRow = 0;
+        int x = 0;
+        int y = 0;
         for(int i=0; i < totalVertices; i++){
-
             // increment the current row
             if (((i % numOfCols) == 0) && (i != 0)){
                 currentRow += 1; 
+                y += 50;
+                x = 0;
             }
 
             String vertexId = "V" + i;
-            Vertex vertex = new Vertex(vertexId);
+            Vertex vertex = new Vertex(vertexId, x, y);
 
             int topLeftCornerIndex = 0;
             int topRightCornerIndex =  numOfCols-1;
@@ -96,7 +99,8 @@ public class GridGraph extends Graph {
 
             // now that proper edges have been placed put the vertex in the hashmap
             this.vertices.put(vertexId, vertex);
-
+            x += 50;
+            // y += 35;
         } // end for loop
     } // end buildGridGraph
 
