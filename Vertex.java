@@ -61,7 +61,7 @@ public class Vertex {
         }
     } // end getRandomClosedPath
 
-    public ArrayList<String> getAllEndVertices(){
+    public ArrayList<String> getAllOpenPaths(){
         ArrayList<String> endVertices = new ArrayList<String>();
         for(int i=0; i < this.edges.size(); i++){
             String endId;
@@ -70,11 +70,21 @@ public class Vertex {
                 endId = currentEdge.getEndVertex();
                 endVertices.add(endId);
             }
-            // endId = this.edges.get(i).getEndVertex();
-            // endVertices.add(endId);
         }
         return endVertices;
     }
+
+    public ArrayList<String> getAllEndVertices(){
+        ArrayList<String> endVertices = new ArrayList<String>();
+        for(int i=0; i < this.edges.size(); i++){
+            String endId;
+            Edge currentEdge = this.edges.get(i);
+            endId = currentEdge.getEndVertex();
+            endVertices.add(endId);
+        }
+        return endVertices;
+    }
+
 
     // not the most efficient way
     public void toggleEdgePathOpen(String startVertex, String endVertex){
