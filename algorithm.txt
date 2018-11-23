@@ -1,0 +1,13 @@
+Final Projec: Maze Generation Game
+bhaakens
+
+TODO:
+    -move adjacent checking part of createMazeWithDFS to own method
+    -Add class that provides player functionality, movement
+    -Add ending end of maze vertex for player, either set place or min random distance
+    -Add southern border panel with areas for numOfRows/Columns, button for generating graph
+    -Possible popup for win screen?
+    -clean up gridGraph, add parameters for positioning so that it plays nice with width/height
+    -make vertex/path size correspond to size of window?
+    -think of way to make line drawing more effient
+    -finish documentation/uml
