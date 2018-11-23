@@ -16,16 +16,8 @@ public abstract class Graph {
         // mark the current vertex as visited
         currentVertex.visit();
 
-        // get an ArrayList strings containing the ids for all the adjacent vertices
-        ArrayList<String> allAdj = currentVertex.getAllAdjacentEndVertices();
-        ArrayList<Vertex> allUnvisitedAdj = new ArrayList<Vertex>();
-        // go through and find all the adjacent vertices that haven't been visited yet
-        for(int i=0; i < allAdj.size(); i++){
-            Vertex myVertex = this.vertices.get(allAdj.get(i));
-            if(myVertex.isVisited() == false){
-                allUnvisitedAdj.add(myVertex);
-            }
-        }
+        // get all unvisited adjacent vertices
+        ArrayList<Vertex> allUnvisitedAdj = getAllUnvisitedAdjacent(currentVertex);
 
         Vertex currentEndVertex = null;
         // if there are unvisited adjacent vertices then randomly choose one
@@ -58,5 +50,19 @@ public abstract class Graph {
         } // end if/else
 
     } // end createMazeWithDFS
+
+    public ArrayList<Vertex> getAllUnvisitedAdjacent(Vertex currentVertex){
+        // get an ArrayList strings containing the ids for all the adjacent vertices
+        ArrayList<String> allAdj = currentVertex.getAllAdjacentEndVertices();
+        ArrayList<Vertex> allUnvisitedAdj = new ArrayList<Vertex>();
+        // go through and find all the adjacent vertices that haven't been visited yet
+        for(int i=0; i < allAdj.size(); i++){
+            Vertex myVertex = this.vertices.get(allAdj.get(i));
+            if(myVertex.isVisited() == false){
+                allUnvisitedAdj.add(myVertex);
+            }
+        }
+        return allUnvisitedAdj;
+    } // end getAllUnvisitedAdjacent
 
 } // end Graph
