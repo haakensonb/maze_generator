@@ -1,44 +1,36 @@
 public class Edge {
-    private String startVertex;
-    private String endVertex;
+    private String startVertexId;
+    private String endVertexId;
     private boolean pathOpen = false;
 
-    public Edge(String startVertex, String endVertex){
-        this.startVertex = startVertex;
-        this.endVertex = endVertex;
+    public Edge(String startVertexId, String endVertexId){
+        this.startVertexId = startVertexId;
+        this.endVertexId = endVertexId;
     } // end constructor
 
-    public void setData(String startVertex, String endVertex){
-        this.startVertex = startVertex;
-        this.endVertex = endVertex;
+    public void setData(String startVertexId, String endVertexId){
+        this.startVertexId = startVertexId;
+        this.endVertexId = endVertexId;
     } // end setData
 
     public String getData(){
-        String info = "startVertex: " + this.startVertex;
-        info += "\nendVertex: " + this.endVertex;
-        info += "\npathOpen: " + this.pathOpen;
-        return info;
+        String data = "startVertexId: " + this.startVertexId;
+        data += "\nendVertexId: " + this.endVertexId;
+        data += "\npathOpen: " + this.pathOpen;
+        return data;
     } // end getData
 
-    public String getStartVertex(){
-        return this.startVertex;
+    public String getStartVertexId(){
+        return this.startVertexId;
     } // getStartVertex
 
-    public String getEndVertex(){
-        return this.endVertex;
+    public String getEndVertexId(){
+        return this.endVertexId;
     } // end getEndVertex
 
     public boolean isPathOpen(){
         return this.pathOpen;
     } // end isPathOpen
-
-    public void togglePath(){
-        if(this.pathOpen == true){
-            this.pathOpen = false;
-        } else if (this.pathOpen == false){
-            this.pathOpen = true;
-        }
-    } // end togglePath
 
     public void openPath(){
         this.pathOpen = true;

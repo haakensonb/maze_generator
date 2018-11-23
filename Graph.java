@@ -8,108 +8,55 @@ public abstract class Graph {
     // stack for backtracking
     protected StringStack visitedVertices = new StringStack();
 
-    // not sure if working correctly
     public void createMazeWithDFS(String currentVertexId){
+        // algorithm will end when all adjacent vertices are visited and it can't find anything unvisited by backtracking
 
         // store the current vertex
         Vertex currentVertex = this.vertices.get(currentVertexId);
-
+        // mark the current vertex as visited
         currentVertex.visit();
-        // this.visitedVertices.push(currentVertex.getId());
 
-        ArrayList<String> allAdj = currentVertex.getAllEndVertices();
+        // get an ArrayList strings containing the ids for all the adjacent vertices
+        ArrayList<String> allAdj = currentVertex.getAllAdjacentEndVertices();
         ArrayList<Vertex> allUnvisitedAdj = new ArrayList<Vertex>();
+        // go through and find all the adjacent vertices that haven't been visited yet
         for(int i=0; i < allAdj.size(); i++){
             Vertex myVertex = this.vertices.get(allAdj.get(i));
             if(myVertex.isVisited() == false){
                 allUnvisitedAdj.add(myVertex);
             }
         }
+
         Vertex currentEndVertex = null;
+        // if there are unvisited adjacent vertices then randomly choose one
         if(!allUnvisitedAdj.isEmpty()){
             Random rand = new Random();
             int randInt = rand.nextInt(allUnvisitedAdj.size());
             currentEndVertex = allUnvisitedAdj.get(randInt);
         }
 
-        // String currentEndVertexId = currentVertex.getRandomClosedPath();
-        // Vertex currentEndVertex = this.vertices.get(currentEndVertexId);
-        // if(currentEndVertex.isVisited() == false){
+        // if an unvisited adjacent vertex was choosen
         if(currentEndVertex != null){
+            // push the current vertex id to the stack
             this.visitedVertices.push(currentVertex.getId());
-            currentVertex.toggleEdgePathOpen(currentVertex.getId(), currentEndVertex.getId());
-            currentEndVertex.toggleEdgePathOpen(currentEndVertex.getId(), currentVertex.getId());
+            // open the path from this vertex to the next
+            currentVertex.openEdgePath(currentVertexId, currentEndVertex.getId());
+            // open the path back the other way, from the end vertex to this vertex
+            currentEndVertex.openEdgePath(currentEndVertex.getId(), currentVertexId);
+            // make recursive call so that algorithm will move to visit the end vertex that was choosen
             createMazeWithDFS(currentEndVertex.getId());
+        // otherwise all the adjacent vertices have already been visited
+        // this means we are at a dead end and must backtrack
         } else{
+            // if there is something left on the stack
             if(!this.visitedVertices.isEmpty()){
                 // grab the id stored on the top of the stack
                 String poppedId = this.visitedVertices.pop();
-                // get the vertex associated with the id
-                Vertex poppedVertex = this.vertices.get(poppedId);
-                // backtrack by setting the current vertex to whatever was just pulled off the stack
-                // currentVertex = poppedVertex;
+                // backtrack by sending the algorithm back to the most recent vertex that was visited
                 createMazeWithDFS(poppedId);
             }
-        }
-
-
-        // boolean keepGoing = true;
-        // while(keepGoing){
-
-        //     // meaning all the vertices have been visited
-        //     if(this.someVerticesNotVisited() == false){
-        //         keepGoing = false;
-        //     // otherwise there are still some vertices that have not been visited yet
-        //     } else {
-        //         // visit the current vertex
-        //         currentVertex.visit();
-        //         // go through the edges on this vertex and randomly choose on that isn't already open
-        //         // take the id of the destination vertex for the edge and store it
-        //         String destinationVertexId = currentVertex.getRandomClosedPath();
-
-        //         // if there are still closed paths to choose
-        //         if(!destinationVertexId.equals("all paths open")){
-        //             // put the id of the current vertex on the stack
-        //             this.visitedVertices.push(currentVertexId);
-        //             // open path from this vertex to the destination vertex
-        //             currentVertex.toggleEdgePathOpen(currentVertexId, destinationVertexId);
-        //             // grab and store the destination vertex
-        //             Vertex destVertex = this.vertices.get(destinationVertexId);
-        //             // open a path from the destination vertex to the current vertex
-        //             // now the path should be bidirectional
-        //             destVertex.toggleEdgePathOpen(destinationVertexId, currentVertexId);
-
-        //             // make recursive call using destination vertex
-        //             createMazeWithDFS(destinationVertexId);
-
-        //         // otherwise there are no closed paths to open
-        //         } else {
-        //             // if there is something on the stack
-        //             if(!this.visitedVertices.isEmpty()){
-        //                 // grab the id stored on the top of the stack
-        //                 String poppedId = this.visitedVertices.pop();
-        //                 // get the vertex associated with the id
-        //                 Vertex poppedVertex = this.vertices.get(poppedId);
-        //                 // backtrack by setting the current vertex to whatever was just pulled off the stack
-        //                 currentVertex = poppedVertex;
-        //             }
-        //         } // end if/else
-        //     } // end else
-            
-        // } // end while loop
+        } // end if/else
 
     } // end createMazeWithDFS
-
-    public boolean someVerticesNotVisited(){
-        // iterate through each vertex in the vertices hashmap
-        for(Map.Entry<String, Vertex> vertex : this.vertices.entrySet()){
-            // if one of the vertices hasn't been visited
-            if(vertex.getValue().isVisited() == false){
-                return true;
-            }
-        }
-        return false;
-    } // end areAllVerticesVisited
-
 
 } // end Graph

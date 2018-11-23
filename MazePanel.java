@@ -24,7 +24,7 @@ public class MazePanel extends JPanel {
             Vertex currentVertex = vertex.getValue();
             g.fillRect(currentVertex.getX(), currentVertex.getY(), vertexWidth, vertexHeight);
             // very ineffient because for now each line will be drawn twice
-            ArrayList<String> endVertices = currentVertex.getAllOpenPaths();
+            ArrayList<String> endVertices = currentVertex.getAllAdjacentOpenPaths();
             for(int i=0; i < endVertices.size(); i++){
                 String endVertexId = endVertices.get(i);
                 Vertex endVertex = graph.vertices.get(endVertexId);

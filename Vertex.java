@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Vertex {
     private int x;
@@ -14,7 +13,7 @@ public class Vertex {
         this.vertexId = vertexId;
         this.visited = false;
         this.edges = new ArrayList<Edge>();
-    } // end null parameter constructor
+    } // end constructor
 
     public String getId(){
         return this.vertexId;
@@ -38,65 +37,45 @@ public class Vertex {
         return this.visited;
     } // end isVisited
 
-    public void addEdge(String startVertex, String endVertext){
-        Edge edge = new Edge(startVertex, endVertext);
+    public void addEdge(String startVertexId, String endVertextId){
+        Edge edge = new Edge(startVertexId, endVertextId);
         this.edges.add(edge);
     } // end addEdge
 
-    // randomly chooses a closed path and returns the vertex that path leads to
-    public String getRandomClosedPath(){
-        ArrayList<String> closedPaths = new ArrayList<String>();
-        for(int i=0; i < this.edges.size(); i++){
-            Edge currentEdge = this.edges.get(i);
-            if(currentEdge.isPathOpen() == false){
-                closedPaths.add(currentEdge.getEndVertex());
-            }
-        }
-        if(closedPaths.isEmpty()){
-            return "all paths open";
-        } else {
-            Random rand = new Random();
-            int randInt = rand.nextInt(closedPaths.size());
-            return closedPaths.get(randInt);
-        }
-    } // end getRandomClosedPath
-
-    public ArrayList<String> getAllOpenPaths(){
+    public ArrayList<String> getAllAdjacentOpenPaths(){
         ArrayList<String> endVertices = new ArrayList<String>();
         for(int i=0; i < this.edges.size(); i++){
             String endId;
             Edge currentEdge = this.edges.get(i);
             if(currentEdge.isPathOpen()){
-                endId = currentEdge.getEndVertex();
+                endId = currentEdge.getEndVertexId();
                 endVertices.add(endId);
             }
         }
         return endVertices;
-    }
+    } // end getAllAdjacentOpenPaths
 
-    public ArrayList<String> getAllEndVertices(){
+    public ArrayList<String> getAllAdjacentEndVertices(){
         ArrayList<String> endVertices = new ArrayList<String>();
         for(int i=0; i < this.edges.size(); i++){
             String endId;
             Edge currentEdge = this.edges.get(i);
-            endId = currentEdge.getEndVertex();
+            endId = currentEdge.getEndVertexId();
             endVertices.add(endId);
         }
         return endVertices;
-    }
-
+    } // end getAllAdjacentEndVertices
 
     // not the most efficient way
-    public void toggleEdgePathOpen(String startVertex, String endVertex){
+    public void openEdgePath(String startVertexId, String endVertexId){
         for(int i=0; i < this.edges.size(); i++){
             Edge currentEdge = this.edges.get(i);
-            if(currentEdge.getStartVertex().equals(startVertex) && currentEdge.getEndVertex().equals(endVertex)){
-                // currentEdge.togglePath();
+            // if the current edge matches the parameters then it is the one we are looking for
+            if(currentEdge.getStartVertexId().equals(startVertexId) && currentEdge.getEndVertexId().equals(endVertexId)){
                 currentEdge.openPath();
             }
         }
-
-    } // end toggleEdgePathOpen
+    } // end openEdgePath
 
     public void getEdgesOverview(){
         for(int i=0; i < this.edges.size(); i++){
@@ -112,12 +91,10 @@ public class Vertex {
         for(int i=0; i < v1.edges.size(); i++){
             // open one of the paths
             if(i == 2){
-                v1.edges.get(i).togglePath();
+                v1.edges.get(i).openPath();
             }
             System.out.println(v1.edges.get(i).getData());
         }
-        System.out.println("Choosing random closed path: " + v1.getRandomClosedPath());
     } // end main
-
 
 } // end Vertex
