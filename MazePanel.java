@@ -6,10 +6,11 @@ import java.util.ArrayList;
 public class MazePanel extends JPanel {
     GridGraph graph;
 
-    public MazePanel(){
+    public MazePanel(GridGraph graph){
         this.setBackground(Color.black);
-        this.graph = new GridGraph(10, 10);
-        this.graph.createMazeWithDFS("V0");
+        this.graph = graph;
+        // this.graph = new GridGraph(10, 10);
+        // this.graph.createMazeWithDFS("V0");
     }
 
     protected void paintComponent(Graphics g){
