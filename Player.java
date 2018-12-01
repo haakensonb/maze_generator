@@ -1,7 +1,4 @@
-import java.awt.*;
-import javax.swing.*;
-
-public class Player extends JPanel{
+public class Player{
     private int x;
     private int y;
     private int width;
@@ -18,25 +15,32 @@ public class Player extends JPanel{
 
     public int getX(){
         return this.x;
-    }
+    } // end getX
 
     public int getY(){
         return this.y;
-    }
+    } // end getY
+
+    public int getWidth(){
+        return this.width;
+    } // end getWidth
+
+    public int getHeight(){
+        return this.height;
+    } // end getHeight
 
     public String getCurrentVertexId(){
         return this.currentVertexId;
-    }
+    } // end getCurrentVertexId
 
-    public void movePlayer(int newX, int newY){
+    public void setCurrentVertexId(String currentVertexId){
+        this.currentVertexId = currentVertexId;
+    } // end setCurrentVertexId
+
+    public void movePlayer(int newX, int newY, String newVertexId){
         this.x = newX;
         this.y = newY;
-    }
-
-    protected void paintComponent(Graphics g){
-        super.paintComponent(g);
-        g.setColor(Color.red);
-        g.fillRect(this.x, this.y, this.width, this.height);
-    } // end paintComponent
+        this.currentVertexId = newVertexId;
+    } // end movePlayer
 
 } // end Player
