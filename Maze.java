@@ -15,9 +15,12 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
     MazePanel mazePanel;
     // guess this needs to be static so that playerPanel visibility can be changed within timer action listener
     static PlayerPanel playerPanel;
+    Container surface;
+    JLayeredPane lp;
 
     static int count = 0;
     static boolean showingAnimation = false;
+    boolean winnerFound = false;
 
     public Maze(){
         // send title string to JFrame constructor
@@ -30,24 +33,7 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
 
         addKeyListener(this);
 
-        this.graph = new GridGraph(10, 10);
-        this.graph.createMazeWithDFS("V0");
-
-        Container surface = this.getContentPane();
-        JLayeredPane lp = new JLayeredPane();
-        this.mazePanel = new MazePanel(this.graph);
-        // need to set bounds so that panel will show up
-        this.mazePanel.setBounds(0, 0, 600, 600);
-        lp.add(this.mazePanel, 1);
-        this.player = new Player(0, 0, 30, 30, "V0");
-        this.winVertex = this.graph.vertices.get("V99");
-        playerPanel = new PlayerPanel(this.player, this.winVertex);
-        playerPanel.setBounds(0, 0, 600, 600);
-        // set player background to be transparent
-        playerPanel.setOpaque(false);
-        // use 0 so that player is on top
-        lp.add(playerPanel, 0);
-        surface.add(lp, BorderLayout.CENTER);
+        this.initCenterPanel();
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(1, 0));
@@ -57,17 +43,39 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         generateBtn.setFocusable(false);
         generateBtn.addActionListener(this);
         bottomPanel.add(generateBtn);
-        surface.add(bottomPanel, BorderLayout.SOUTH);
+        this.surface.add(bottomPanel, BorderLayout.SOUTH);
 
-        this.mazePanel.setVisible(false);
-        playerPanel.setVisible(false);
-
+        this.mazePanel.setVisible(true);
+        this.animate();
 
     } // end constructor
     public static void main(String[] args){
         new Maze();
     } // end main
 
+    public void initCenterPanel(){
+        this.graph = new GridGraph(10, 10);
+        this.graph.createMazeWithDFS("V0");
+
+        this.surface = this.getContentPane();
+        this.lp = new JLayeredPane();
+        this.mazePanel = new MazePanel(this.graph);
+        // need to set bounds so that panel will show up
+        this.mazePanel.setBounds(0, 0, 600, 600);
+        this.lp.add(this.mazePanel, 1);
+        this.player = new Player(0, 0, 30, 30, "V0");
+        this.winVertex = this.graph.vertices.get("V99");
+        playerPanel = new PlayerPanel(this.player, this.winVertex);
+        playerPanel.setBounds(0, 0, 600, 600);
+        // set player background to be transparent
+        playerPanel.setOpaque(false);
+        // use 0 so that player is on top
+        this.lp.add(playerPanel, 0);
+        this.surface.add(lp, BorderLayout.CENTER);
+
+        this.mazePanel.setVisible(false);
+        playerPanel.setVisible(false);
+    }
     
     public void animate(){
         int numOfVerticesToAnimate = this.graph.verticesToAnimate.size();
@@ -113,11 +121,15 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
     } // end actionPerformed
 
     public void keyPressed(KeyEvent e){
-        this.handlePlayerMovement(e);
-        if(this.winCheck()){
-            System.out.println("You Win");
-            JOptionPane.showMessageDialog(this, "You found a way out of the maze! You win!", "Congratulations", JOptionPane.PLAIN_MESSAGE);
+        // only let the player move if they haven't already won
+        if(!winnerFound){
+            this.handlePlayerMovement(e);
+            if(this.winCheck()){
+                System.out.println("You Win");
+                JOptionPane.showMessageDialog(this, "You found a way out of the maze! You win!", "Congratulations", JOptionPane.PLAIN_MESSAGE);
+            }
         }
+        
     } // end keyPressed
 
     public void handlePlayerMovement(KeyEvent e){
@@ -190,6 +202,7 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
 
     public boolean winCheck(){
         if((this.player.getX() == this.winVertex.getX()) && (this.player.getY() == this.winVertex.getY())){
+            winnerFound = true;
             return true;
         } else {
             return false;
