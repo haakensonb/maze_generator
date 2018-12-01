@@ -15,6 +15,9 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
     MazePanel mazePanel;
     PlayerPanel playerPanel;
 
+    static int count = 0;
+    static boolean showingAnimation = false;
+
     public Maze(){
         // send title string to JFrame constructor
         super("My Maze");
@@ -64,12 +67,44 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         new Maze();
     } // end main
 
+    
+    public void animate(){
+        if(!Maze.showingAnimation){
+            Maze.toggleShowingAnimation();
+            // make sure count is reset each time
+            Maze.count = 0;
+            Timer timer = new Timer(100, new ActionListener(){
+                public void actionPerformed(ActionEvent e) {
+                    Maze.count++;
+                    if(Maze.count == 100){
+                        // stop timer
+                        ((Timer)e.getSource()).stop();
+                        // stop animation
+                        Maze.toggleShowingAnimation();
+                    }
+                    repaint();
+                }
+            });
+            timer.start();
+
+        } // end if
+    } // end animate
+
+
+    public static void toggleShowingAnimation(){
+        if(showingAnimation){
+            showingAnimation = false;
+        } else if(!showingAnimation){
+            showingAnimation = true;
+        }
+    }
+
 
     public void actionPerformed(ActionEvent e){
         System.out.println(e.getActionCommand());
         if(e.getActionCommand() == "Generate"){
             this.mazePanel.setVisible(true);
-            this.mazePanel.animate();
+            this.animate();
             this.playerPanel.setVisible(true);
         }
     } // end actionPerformed
