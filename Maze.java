@@ -9,6 +9,7 @@ import java.util.Map;
 public class Maze extends JFrame implements KeyListener{
     GridGraph graph;
     Player player;
+    Vertex winVertex;
 
     public Maze(){
         // send title string to JFrame constructor
@@ -31,7 +32,8 @@ public class Maze extends JFrame implements KeyListener{
         mazePanel.setBounds(0, 0, 600, 600);
         lp.add(mazePanel, 1);
         this.player = new Player(0, 0, 30, 30, "V0");
-        PlayerPanel playerPanel = new PlayerPanel(this.player);
+        this.winVertex = this.graph.vertices.get("V99");
+        PlayerPanel playerPanel = new PlayerPanel(this.player, this.winVertex);
         playerPanel.setBounds(0, 0, 600, 600);
         // set player background to be transparent
         playerPanel.setOpaque(false);
@@ -46,6 +48,9 @@ public class Maze extends JFrame implements KeyListener{
 
     public void keyPressed(KeyEvent e){
         this.handlePlayerMovement(e);
+        if(this.winCheck()){
+            System.out.println("You Win");
+        }
     } // end keyPressed
 
     public void handlePlayerMovement(KeyEvent e){
@@ -115,6 +120,14 @@ public class Maze extends JFrame implements KeyListener{
         } // end for loop
 
     } // end tryMove
+
+    public boolean winCheck(){
+        if((this.player.getX() == this.winVertex.getX()) && (this.player.getY() == this.winVertex.getY())){
+            return true;
+        } else {
+            return false;
+        }
+    } // end winCheck
 
     public boolean isPlayerPathOpen(String currentVertexId, String destinationVertexId){
         Vertex currentVertex = this.graph.vertices.get(currentVertexId);
