@@ -13,7 +13,8 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
     Player player;
     Vertex winVertex;
     MazePanel mazePanel;
-    PlayerPanel playerPanel;
+    // guess this needs to be static so that playerPanel visibility can be changed within timer action listener
+    static PlayerPanel playerPanel;
 
     static int count = 0;
     static boolean showingAnimation = false;
@@ -40,12 +41,12 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         lp.add(this.mazePanel, 1);
         this.player = new Player(0, 0, 30, 30, "V0");
         this.winVertex = this.graph.vertices.get("V99");
-        this.playerPanel = new PlayerPanel(this.player, this.winVertex);
-        this.playerPanel.setBounds(0, 0, 600, 600);
+        playerPanel = new PlayerPanel(this.player, this.winVertex);
+        playerPanel.setBounds(0, 0, 600, 600);
         // set player background to be transparent
-        this.playerPanel.setOpaque(false);
+        playerPanel.setOpaque(false);
         // use 0 so that player is on top
-        lp.add(this.playerPanel, 0);
+        lp.add(playerPanel, 0);
         surface.add(lp, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel();
@@ -59,7 +60,7 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         surface.add(bottomPanel, BorderLayout.SOUTH);
 
         this.mazePanel.setVisible(false);
-        this.playerPanel.setVisible(false);
+        playerPanel.setVisible(false);
 
 
     } // end constructor
@@ -69,6 +70,7 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
 
     
     public void animate(){
+        int numOfVerticesToAnimate = this.graph.verticesToAnimate.size();
         if(!Maze.showingAnimation){
             Maze.toggleShowingAnimation();
             // make sure count is reset each time
@@ -76,11 +78,13 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
             Timer timer = new Timer(100, new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
                     Maze.count++;
-                    if(Maze.count == 100){
+                    if(Maze.count == numOfVerticesToAnimate){
                         // stop timer
                         ((Timer)e.getSource()).stop();
                         // stop animation
                         Maze.toggleShowingAnimation();
+                        // now that the maze is done being drawn show the playerPanel
+                        Maze.playerPanel.setVisible(true);
                     }
                     repaint();
                 }
@@ -105,7 +109,6 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         if(e.getActionCommand() == "Generate"){
             this.mazePanel.setVisible(true);
             this.animate();
-            this.playerPanel.setVisible(true);
         }
     } // end actionPerformed
 
