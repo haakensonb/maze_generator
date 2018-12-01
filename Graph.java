@@ -2,11 +2,17 @@ import java.util.Map;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.ArrayList;
+// should change to use own queue at some point
+import java.util.LinkedList;
+import java.util.Queue;
 
 public abstract class Graph {
     protected HashMap<String, Vertex> vertices = new HashMap<>();
     // stack for backtracking
     protected StringStack visitedVertices = new StringStack();
+    // queue for animating
+    // protected Queue<Vertex> vertexQueue = new LinkedList<>();
+    protected ArrayList<Vertex> verticesToAnimate = new ArrayList<Vertex>();
 
     public void createMazeWithDFS(String currentVertexId){
         // algorithm will end when all adjacent vertices are visited and it can't find anything unvisited by backtracking
@@ -15,6 +21,12 @@ public abstract class Graph {
         Vertex currentVertex = this.vertices.get(currentVertexId);
         // mark the current vertex as visited
         currentVertex.visit();
+
+        // add the current vertex to the queue
+        // this.vertexQueue.add(currentVertex);
+        if(!this.verticesToAnimate.contains(currentVertex)){
+            this.verticesToAnimate.add(currentVertex);
+        }
 
         // get all unvisited adjacent vertices
         ArrayList<Vertex> allUnvisitedAdj = getAllUnvisitedAdjacent(currentVertex);
@@ -31,6 +43,8 @@ public abstract class Graph {
         if(currentEndVertex != null){
             // push the current vertex id to the stack
             this.visitedVertices.push(currentVertex.getId());
+
+
             // open the path from this vertex to the next
             currentVertex.openEdgePath(currentVertexId, currentEndVertex.getId());
             // open the path back the other way, from the end vertex to this vertex
