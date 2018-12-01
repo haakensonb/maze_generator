@@ -1,12 +1,14 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Maze extends JFrame implements KeyListener{
+public class Maze extends JFrame implements KeyListener, ActionListener{
     GridGraph graph;
     Player player;
     Vertex winVertex;
@@ -17,6 +19,7 @@ public class Maze extends JFrame implements KeyListener{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600, 600);
         this.setVisible(true);
+        this.setFocusable(true);
         this.setLayout(new BorderLayout());
 
         addKeyListener(this);
@@ -26,7 +29,6 @@ public class Maze extends JFrame implements KeyListener{
 
         Container surface = this.getContentPane();
         JLayeredPane lp = new JLayeredPane();
-        // lp.setPreferredSize(new Dimension(600, 600));
         MazePanel mazePanel = new MazePanel(this.graph);
         // need to set bounds so that panel will show up
         mazePanel.setBounds(0, 0, 600, 600);
@@ -41,15 +43,31 @@ public class Maze extends JFrame implements KeyListener{
         lp.add(playerPanel, 0);
         surface.add(lp, BorderLayout.CENTER);
 
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new GridLayout(1, 0));
+        JButton generateBtn = new JButton("Generate");
+        // kind of hacky workaround to make sure focus stays on the maze for the keylistener
+        // key listening needs to be reworked or changed to keyBinding?
+        generateBtn.setFocusable(false);
+        generateBtn.addActionListener(this);
+        bottomPanel.add(generateBtn);
+        surface.add(bottomPanel, BorderLayout.SOUTH);
+
+
     } // end constructor
     public static void main(String[] args){
         new Maze();
     } // end main
 
+    public void actionPerformed(ActionEvent e){
+        System.out.println(e.getActionCommand());
+    } // end actionPerformed
+
     public void keyPressed(KeyEvent e){
         this.handlePlayerMovement(e);
         if(this.winCheck()){
             System.out.println("You Win");
+            JOptionPane.showMessageDialog(this, "You found a way out of the maze! You win!", "Congratulations", JOptionPane.PLAIN_MESSAGE);
         }
     } // end keyPressed
 
