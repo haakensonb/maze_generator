@@ -12,6 +12,8 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
     GridGraph graph;
     Player player;
     Vertex winVertex;
+    MazePanel mazePanel;
+    PlayerPanel playerPanel;
 
     public Maze(){
         // send title string to JFrame constructor
@@ -29,18 +31,18 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
 
         Container surface = this.getContentPane();
         JLayeredPane lp = new JLayeredPane();
-        MazePanel mazePanel = new MazePanel(this.graph);
+        this.mazePanel = new MazePanel(this.graph);
         // need to set bounds so that panel will show up
-        mazePanel.setBounds(0, 0, 600, 600);
-        lp.add(mazePanel, 1);
+        this.mazePanel.setBounds(0, 0, 600, 600);
+        lp.add(this.mazePanel, 1);
         this.player = new Player(0, 0, 30, 30, "V0");
         this.winVertex = this.graph.vertices.get("V99");
-        PlayerPanel playerPanel = new PlayerPanel(this.player, this.winVertex);
-        playerPanel.setBounds(0, 0, 600, 600);
+        this.playerPanel = new PlayerPanel(this.player, this.winVertex);
+        this.playerPanel.setBounds(0, 0, 600, 600);
         // set player background to be transparent
-        playerPanel.setOpaque(false);
+        this.playerPanel.setOpaque(false);
         // use 0 so that player is on top
-        lp.add(playerPanel, 0);
+        lp.add(this.playerPanel, 0);
         surface.add(lp, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel();
@@ -53,14 +55,23 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         bottomPanel.add(generateBtn);
         surface.add(bottomPanel, BorderLayout.SOUTH);
 
+        this.mazePanel.setVisible(false);
+        this.playerPanel.setVisible(false);
+
 
     } // end constructor
     public static void main(String[] args){
         new Maze();
     } // end main
 
+
     public void actionPerformed(ActionEvent e){
         System.out.println(e.getActionCommand());
+        if(e.getActionCommand() == "Generate"){
+            this.mazePanel.setVisible(true);
+            this.mazePanel.animate();
+            this.playerPanel.setVisible(true);
+        }
     } // end actionPerformed
 
     public void keyPressed(KeyEvent e){
