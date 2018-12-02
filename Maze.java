@@ -17,7 +17,7 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
     static PlayerPanel playerPanel;
     Container surface;
     JLayeredPane lp;
-
+    // counter for animation
     static int count = 0;
     static boolean showingAnimation = false;
     boolean winnerFound = false;
@@ -31,10 +31,23 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         this.setFocusable(true);
         this.setLayout(new BorderLayout());
 
+        // key listener for arrow key movement
         addKeyListener(this);
-
+        // create the center panel that holds MazePanel and PlayerPanel
         this.initCenterPanel();
+        // create bottom button
+        this.initBottomPanel();
+        // make sure maze is visible before animation
+        this.mazePanel.setVisible(true);
+        // show the graph being made as an animation
+        this.animate();
 
+    } // end constructor
+    public static void main(String[] args){
+        new Maze();
+    } // end main
+
+    public void initBottomPanel(){
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(1, 0));
         JButton generateBtn = new JButton("Generate");
@@ -44,17 +57,12 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         generateBtn.addActionListener(this);
         bottomPanel.add(generateBtn);
         this.surface.add(bottomPanel, BorderLayout.SOUTH);
-
-        this.mazePanel.setVisible(true);
-        this.animate();
-
-    } // end constructor
-    public static void main(String[] args){
-        new Maze();
-    } // end main
+    } // end initBottomPanel
 
     public void initCenterPanel(){
+        // create a grid shaped graph
         this.graph = new GridGraph(10, 10);
+        // actually turn the graph into a maze
         this.graph.createMazeWithDFS("V0");
 
         this.surface = this.getContentPane();
@@ -63,7 +71,9 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         // need to set bounds so that panel will show up
         this.mazePanel.setBounds(0, 0, 600, 600);
         this.lp.add(this.mazePanel, 1);
+        // create player at the start of maze
         this.player = new Player(0, 0, 30, 30, "V0");
+        // create win area at end of maze
         this.winVertex = this.graph.vertices.get("V99");
         playerPanel = new PlayerPanel(this.player, this.winVertex);
         playerPanel.setBounds(0, 0, 600, 600);
@@ -72,20 +82,24 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         // use 0 so that player is on top
         this.lp.add(playerPanel, 0);
         this.surface.add(lp, BorderLayout.CENTER);
-
+        // make sure that panels are invisible for now until proper animation timing
         this.mazePanel.setVisible(false);
         playerPanel.setVisible(false);
     }
     
     public void animate(){
         int numOfVerticesToAnimate = this.graph.verticesToAnimate.size();
+        // if it's not already trying to step through an animation
         if(!Maze.showingAnimation){
+            // turn on animation
             Maze.toggleShowingAnimation();
             // make sure count is reset each time
             Maze.count = 0;
+            // timer increments count which representings the number of vertices to draw
             Timer timer = new Timer(100, new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
                     Maze.count++;
+                    // keeps drawing more vertices each time until it reaches the end of the maze
                     if(Maze.count == numOfVerticesToAnimate){
                         // stop timer
                         ((Timer)e.getSource()).stop();
@@ -98,10 +112,8 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
                 }
             });
             timer.start();
-
         } // end if
     } // end animate
-
 
     public static void toggleShowingAnimation(){
         if(showingAnimation){
@@ -110,7 +122,6 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
             showingAnimation = true;
         }
     } // end toggleShowingAnimation
-
 
     public void actionPerformed(ActionEvent e){
         // if the generate button is pressed
@@ -141,11 +152,9 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         if(!winnerFound){
             this.handlePlayerMovement(e);
             if(this.winCheck()){
-                System.out.println("You Win");
                 JOptionPane.showMessageDialog(this, "You found a way out of the maze! You win!", "Congratulations", JOptionPane.PLAIN_MESSAGE);
             }
         }
-        
     } // end keyPressed
 
     public void handlePlayerMovement(KeyEvent e){
@@ -168,15 +177,21 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
     } // end handlePlayerMovement
 
     public void tryMove(String direction){
+        // get the player's current vertex
         Vertex playerVertex = this.graph.vertices.get(this.player.getCurrentVertexId());
+        // get all the paths available for the player to take
         ArrayList<String> allOpenPaths = playerVertex.getAllAdjacentOpenPaths();
+        // get player's position
         int playerX = this.player.getX();
         int playerY = this.player.getY();
+        // loop through each available path
         for(int i=0; i < allOpenPaths.size(); i++){
+            // get the position of the end vertex of the current available path
             String currentEndVertexId = allOpenPaths.get(i);
             Vertex currentEndVertex = this.graph.vertices.get(currentEndVertexId);
             int possibleX = currentEndVertex.getX();
             int possibleY = currentEndVertex.getY();
+            // try different direction depending on the parameter passed in
             switch(direction){
                 case "UP":
                     // counter intuitive because swing's X,Y start from the top left corner
@@ -217,6 +232,7 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
     } // end tryMove
 
     public boolean winCheck(){
+        // if the player's x,y position is the same as the x,y position of the winning area then they have won
         if((this.player.getX() == this.winVertex.getX()) && (this.player.getY() == this.winVertex.getY())){
             winnerFound = true;
             return true;
