@@ -158,11 +158,87 @@ Output: no return but will print to screen
 Steps:
     -for each edge in the edges arraylist call getData on it and print to screen
 
+
 Class Node
 -------------
 
+Method Name: Node (constructor)
+Goals: To be called when Node object is created
+Input: parameter data that can be a generic data type, parameter next which is a Node of same generic type
+Output: N/A
+Steps:
+    -Set data to the data parameter passed in
+    -Set next to the next parameter passed in
+
+Method Name: getData
+Goals: To return the value of Node's data
+Input: N/A
+Output: data of whatever the generic type is
+Steps:
+    -Simply return the value of data
+
+Method Name: setData
+Goals: To change the value of data to a new value
+Input: data of generic type
+Output: N/A
+Steps:
+    -Simply set the value of data equal to the new data parameter
+
+Method Name: setNext
+Goals: To change the value of next to new Node
+Input: parameter next of generic Node type
+Output: N/A
+Steps:
+    -Simply set the value of next equal to the parameter next
+
+Method Name: getNext
+Goals: To return the value of next
+Input: N/A
+Output: node next of generic type
+Steps:
+    -Simply return the value of next
+
+
 Class StringStack
 -------------------
+
+Method Name: StringStack (constructor)
+Goals: To be called when StringStack object is created
+Input: N/A
+Output: N/A
+Steps:
+    -Set the value of topOfStack equal to null
+
+Method Name: push
+Goals: To push a value to the top of the stack
+Input: string data
+Output: N/A
+Steps:
+    -Create a new string Node and pass it data parameter as well as topOfStack parameter
+    -set the top of the stack equal to this new node
+
+Method Name: pop
+Goals: To remove and return the node on top of the stack
+Input: N/A
+Output: string value
+Steps:
+    -Create string to hold value of node
+    -check to see if the stack is empty
+    -if it is set value equal to a string describing this
+    -otherwise if stack isn't empty get the value of the Node on the top of the stack and store it in value variable
+    -Set the top of the stack equal to the next node on the stack
+    -return the value variable
+
+Method Name: isEmpty
+Goals: To return boolean saying whether or not the stack is empty
+Input: N/A
+Output: boolean true/false
+Steps:
+    -Check to see if the top of the stack equals null
+    -if it is null, then return true
+    -otherwise if the top of the stack isn't null
+    -then return false
+
 
 Class Graph
 --------------------
