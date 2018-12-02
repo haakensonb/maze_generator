@@ -243,8 +243,105 @@ Steps:
 Class Graph
 --------------------
 
+Method Name: createMazeWithDFS
+Goals: To step through each vertex in the maze using a recurisve depth first search and carve out a maze by opening paths.
+       Method will end when all adjacent vertices are visited and it can't find anything unvisited by backtracking
+Input: string currentVertexId
+Output: N/A
+Steps:
+    -Create and store the currentVertex using the currentVertexId provided as parameter
+    -Mark the current vertex as visited
+    -Check to see if the current vertex is already in the verticesToAnimate arraylist
+    -if it isn't, add it to the arraylist
+    -get all the unvisited adjacent vertices and store in variable
+    -Create vertex variable for currentEndVertex and set to null
+    -check to see if there are actually unvisited vertices
+    -if there is then randomly choose one and set currentEndVertex equal to it
+    -check to see if a currentEndVertex has been found (no longer null)
+    -if it has then push the currentVertexId onto the stack of visited vertices
+    -then open a path from currentVertex to currentEndVertex
+    -also open path in opposite direction of currentEndVertex to currentVertex
+    -recursively call createMazeWithDFS again and pass in the id of the currentEndVertex so that vertex will be visited next
+    -otherwise if the currentEndVertex is null still
+    -then check to see if there is anything on the stack
+    -if there is something on the stack then pop it off and store id
+    -recursively call createMazeWithDFS and pass in this popped off id so that the algo is sent back to most recent vertex to try again
+
+Method Name: getAllUnvisitedAdjacent
+Goals: To return an ArrayList of all the adjacent vertices that are unvisited
+Input: Vertex currentVertex
+Output: ArrayList<Vertex> allUnvisitedAdj
+Steps:
+    -Get an arraylist with id's of all the adjacent vertices
+    -create empty arraylist for allUnvisitedAdj
+    -loop through each of the adjacent vertices
+    -check to see if the current adjacent vertex has been visited
+    -if it hasn't then add it to the ArrayList of unvisited adj
+    -after looping return allUnvisitedAdj
+
+
 Class GridGraph
 --------------------
+
+Method Name: GridGraph (constructor)
+Goals: To be called when GridGraph object is created
+Input: int number of rows, int number of columns
+Output: N/A
+Steps:
+    -call buildGridGraph method and pass in parameters for number of rows/columns
+
+Method Name: buildGridGraph
+Goals: To create a rectangular grid graph of Vertices/Edges based on number of rows/columns passed in
+Input: int numOfRows, int numOfCols
+Output: N/A
+Steps:
+    -Create int variable for total number of vertices by multiplying numOfRows and numOfCols
+    -Create int variable to keep track of currentRow
+    -Create int variable for x positioning
+    -Create int variable for y positioning
+    -for loop that starts at 0 and ends at the number of totalVertices, so that it loops once for each vertex
+    -Check to see if the currentRow should be incremented. This is done by checking to see if the 
+     current iteration is evenly divisible by the number of columns and isn't zero.
+    -If the currentRow row should be incremented, then increment it and increase y positioning while reseting x positioning to zero
+    -create a new vertexId string by concating with current iteration number
+    -create a new vertex using this id and the positioning
+    -Create int variable for unique indices of grid graph 
+     such as topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner, leftColumn, rightColumn.
+     topLeftCorner is always at zero index, topRightCorner is always numOfCols-1, bottomLeftCorner is always totalVertices-numOfCols,
+     bottomRightCorner is always totalVertices-1, leftColumn is always currentRow times numOfCols, rightColumn is always (currentRow times numOfCols) + (numOfCols - 1)
+    -check if index is topLeftCorner
+    -if it is then create edge to the right and below
+    -otherwise check if index is topRightCorner
+    -if it is then create edge to the left and below
+    -otherwise check if index is bottomLeftCorner
+    -if it is then create edge above and to the right
+    -otherwise check if index is bottomRightCorner
+    -if it is then create edge above and to the left
+    -otherwise check if index is in first row between corners
+    -if it is then creat edge to left, right and below
+    -otherwise check if index is leftColumn
+    -if it is then create edge above, to right and below
+    -otherwise check if index is rightColumn
+    -if it is then create edge above, to left and below
+    -otherwise check if index is in bottom row between corners
+    -if it is then create edge above, and to left/right
+    -otherwise the index must be in the middle of the graph
+    -this means that edges and be created for all directions above/below/left/right
+    -Add newly created vertex to hashmap of vertices
+    -increase x positioning
+    -end the for loop
+
+Method Name: reset
+Goals: To reset and rebuild that graph so that there is a new maze
+Input: N/A
+Output: N/A
+Steps:
+    -Set the value of vertices to a new hashmap
+    -Set the value of visitedVertices to a new StringStack
+    -Set the value of verticesToAnimate to a new ArrayList
+    -call buildGridGraph
+    -call createMazeWithDFS
+
 
 Class Player
 --------------------
