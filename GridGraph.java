@@ -1,4 +1,6 @@
+import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 
 public class GridGraph extends Graph {
 
@@ -103,6 +105,14 @@ public class GridGraph extends Graph {
             // y += 35;
         } // end for loop
     } // end buildGridGraph
+
+    public void reset(){
+        this.vertices = new HashMap<>();
+        this.visitedVertices = new StringStack();
+        this.verticesToAnimate = new ArrayList<Vertex>();
+        this.buildGridGraph(10, 10);
+        this.createMazeWithDFS("V0");
+    }
 
     public static void main(String[] args){
         GridGraph g = new GridGraph(4, 4);

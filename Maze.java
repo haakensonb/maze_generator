@@ -115,6 +115,11 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
     public void actionPerformed(ActionEvent e){
         System.out.println(e.getActionCommand());
         if(e.getActionCommand() == "Generate"){
+            playerPanel.setVisible(false);
+            this.graph.reset();
+            this.player.movePlayer(0, 0, "V0");
+            winnerFound = false;
+            repaint();
             this.mazePanel.setVisible(true);
             this.animate();
         }

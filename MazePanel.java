@@ -23,7 +23,7 @@ public class MazePanel extends JPanel {
         int vertexWidth = 30;
         int vertexHeight = 30;
 
-        if(Maze.showingAnimation){
+        if(Maze.showingAnimation && (this.graph.verticesToAnimate.isEmpty() == false)){
             for(int i=0; i < Maze.count; i++){
                 Vertex currentVertex = this.graph.verticesToAnimate.get(i);
                 g.fillRect(currentVertex.getX(), currentVertex.getY(), vertexWidth, vertexHeight);
@@ -41,7 +41,7 @@ public class MazePanel extends JPanel {
 
             } // end for loop
         // otherwise it isn't showing the maze being generated and just needs to render it on the screen
-        } else {
+        } else if(graph.vertices.isEmpty() == false){
             for(Map.Entry<String, Vertex> vertex : graph.vertices.entrySet()){
                 Vertex currentVertex = vertex.getValue();
                 g.fillRect(currentVertex.getX(), currentVertex.getY(), vertexWidth, vertexHeight);

@@ -2,11 +2,7 @@ Final Projec: Maze Generation Game
 bhaakens
 
 TODO:
-    -add queue for generating
-    -use queue to animate maze generation
-    -Make generate button functional
     -add areas for numOfRows/Columns
-    -add boolean for game running so that player can't be moved after game won without regenerating maze
     -clean up gridGraph, add parameters for positioning so that it plays nice with width/height
     -make vertex/path size correspond to size of window?
     -think of way to make line drawing more effient
