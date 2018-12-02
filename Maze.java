@@ -9,18 +9,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Maze extends JFrame implements KeyListener, ActionListener{
-    GridGraph graph;
-    Player player;
-    Vertex winVertex;
-    MazePanel mazePanel;
+    private GridGraph graph;
+    private Player player;
+    private Vertex winVertex;
+    private MazePanel mazePanel;
     // guess this needs to be static so that playerPanel visibility can be changed within timer action listener
     static PlayerPanel playerPanel;
-    Container surface;
-    JLayeredPane lp;
+    private Container surface;
+    private JLayeredPane lp;
     // counter for animation
     static int count = 0;
     static boolean showingAnimation = false;
-    boolean winnerFound = false;
+    private boolean winnerFound = false;
 
     public Maze(){
         // send title string to JFrame constructor

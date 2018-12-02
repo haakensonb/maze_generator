@@ -2,8 +2,8 @@ import java.awt.*;
 import javax.swing.*;
 
 public class PlayerPanel extends JPanel {
-    Player player;
-    Vertex winVertex;
+    private Player player;
+    private Vertex winVertex;
 
     public PlayerPanel(Player player, Vertex winVertex){
         this.player = player;

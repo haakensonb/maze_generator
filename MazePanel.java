@@ -7,7 +7,7 @@ import java.util.TimerTask;
 import java.util.ArrayList;
 
 public class MazePanel extends JPanel {
-    GridGraph graph;
+    private GridGraph graph;
 
     public MazePanel(GridGraph graph){
         this.setBackground(Color.black);
