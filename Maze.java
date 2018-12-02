@@ -109,19 +109,30 @@ public class Maze extends JFrame implements KeyListener, ActionListener{
         } else if(!showingAnimation){
             showingAnimation = true;
         }
-    }
+    } // end toggleShowingAnimation
 
 
     public void actionPerformed(ActionEvent e){
-        System.out.println(e.getActionCommand());
+        // if the generate button is pressed
         if(e.getActionCommand() == "Generate"){
-            playerPanel.setVisible(false);
-            this.graph.reset();
-            this.player.movePlayer(0, 0, "V0");
-            winnerFound = false;
-            repaint();
-            this.mazePanel.setVisible(true);
-            this.animate();
+            // as long as it isn't already in the process of animating
+            if(showingAnimation == false){
+                // hide player panel for reset
+                playerPanel.setVisible(false);
+                // reset/rebuild the graph
+                this.graph.reset();
+                // reset player position
+                this.player.movePlayer(0, 0, "V0");
+                // reset win flag
+                winnerFound = false;
+                // make panel is repainted
+                repaint();
+                // now that maze is generated we can show the panel again
+                this.mazePanel.setVisible(true);
+                // call animation to show building of maze
+                this.animate();
+            }
+            
         }
     } // end actionPerformed
 
