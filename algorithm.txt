@@ -1,9 +1,183 @@
 Final Projec: Maze Generation Game
 bhaakens
 
+
 TODO:
     -add areas for numOfRows/Columns
     -clean up gridGraph, add parameters for positioning so that it plays nice with width/height
     -make vertex/path size correspond to size of window?
     -think of way to make line drawing more effient
     -finish documentation/uml
+
+
+Class Edge
+-------------
+
+Method Name: Edge (constructor)
+Goals: To be called when Edge object is created
+Input: string startVertexId, string endVertexId
+Output: N/A
+Steps:
+    -Set this object's startVertexId property to startVertexId parameter passed in
+    -Set this object's endVertexId property to endVertexId parameter passed in
+
+Method Name: setData
+Goals: To set startVertexId and endVertexId to new values
+Input: string startVertexId, string endVertexId
+Output: N/A
+Steps:
+    -Set this object's startVertexId property to startVertexId parameter passed in
+    -Set this object's endVertexId property to endVertexId parameter passed in
+
+Method Name: getData
+Goals: To return a formatted string to display startVertexId and endVertexId
+Input: N/A
+Output: string data
+Steps:
+    -Create string variable called data
+    -concat data with startVertexId and text describing it
+    -concat data with endVertexId and text describing it
+    -concat data with pathOpen and text describing it
+    -return string variable data
+
+Method Name: getStartVertexId
+Goals: To return the value of getStartVertexId
+Input: N/A
+Output: string startVertexId
+Steps:
+    -Simply return the value of this object's startVertexId
+
+Method Name: getEndVertexId
+Goals: To return the value of getEndVertexId
+Input: N/A
+Output: string endVertexId
+Steps:
+    -Simply return the value of this object's endVertexId
+
+Method Name: isPathOpen
+Goals: To return a boolean for whether or not the path is open
+Input: N/A
+Output: boolean true/false
+Steps:
+    -Simply return the value of pathOpen
+
+
+Class Vertex
+---------------
+
+Method Name: Vertex (constructor)
+Goals: To be called when a Vertex object is created
+Input: string vertexId, int x, int y
+Output: N/A
+Steps:
+    -Set object's x value to x value passed in
+    -Set object's y value to y value passed in
+    -Set object's vertexId value to vertexId value passed in
+    -Set visited variable to false
+    -Set edges variable to new ArrayList of Edges
+
+Method Name: getId
+Goals: To return the value of vertexId
+Input: N/A
+Output: string vertexId
+Steps:
+    -Simply return the value of vertexId
+
+Method Name: getX
+Goals: To return the value of x
+Input: N/A
+Output: int x
+Steps:
+    -Simply return the value of x
+
+Method Name: getY
+Goals: To return the value of y
+Input: N/A
+Output: int y
+Steps:
+    -Simply return the value of y
+
+Method Name: visit
+Goals: To change the value of visited to true
+Input: N/A
+Output: N/A
+Steps:
+    -check to see if visited is false
+    -if it is, then change it to true
+
+Method Name: isVisited
+Goals: To return boolean value of visited
+Input: N/A
+Output: boolean true/false
+Steps:
+    -Simply return the value of visited
+
+Method Name: addEdge
+Goals: To add an Edge object to the list of edges
+Input: string startVertexId, string endVertexId
+Output: doesn't return anything but will add to arraylist
+Steps:
+    -Create a new Edge object passing in the parameters of startVertexId and endVertexId
+    -add this new edge object to edges arraylist
+
+Method Name: getAllAdjacentOpenPaths
+Goals: To return an ArrayList of strings that are the id's of all the adjacent vertices with open paths
+Input: N/A
+Output: ArrayList<String> endVertices
+Steps:
+    -Create an arraylist of strings to hold endVertices
+    -loop through each vertex in the edges arraylist
+    -for each edge in the arraylist check to see if it's path is open
+    -if it's path is open, then add the endVertexId of that vertex to the endVertices arraylist
+    -once the loop is done, return the arraylist endVertices
+
+Method Name: getAllAdjacentEndVertices
+Goals: To return an ArrayList of string the contain the id's of all the adjacent vertices
+Input: N/A
+Output: ArrayList<String> endVertices
+Steps:
+    -Create an arraylist of string to hold endVertices
+    -loop through each of the vertex's edges
+    -add each edge to the list regardless of it's path status
+    -after looping return the arraylist
+
+Method Name: openEdgePath
+Goals: To open the path between two vertices
+Input: string startVertexId, string endVertexId
+Output: N/A
+Steps:
+    -loop through each of this vertex's edges
+    -for each edge check to see if it has the same startVertexId as the parameter passed in
+    -also check to see if the edge has the same endVertexId as the one passed in
+    -if it does, call openPath on it to open the path
+
+Method Name: getEdgesOverview
+Goals: To display the data for each edge for testing purposes
+Input: N/A
+Output: no return but will print to screen
+Steps:
+    -for each edge in the edges arraylist call getData on it and print to screen
+
+Class Node
+-------------
+
+Class StringStack
+-------------------
+
+Class Graph
+--------------------
+
+Class GridGraph
+--------------------
+
+Class Player
+--------------------
+
+Class PlayerPanel
+--------------------
+
+Class MazePanel
+--------------------
+
+Class Maze
+--------------------
