@@ -21,11 +21,11 @@ public class Vertex {
 
     public int getX(){
         return this.x;
-    }
+    } // end getX
 
     public int getY(){
         return this.y;
-    }
+    } // end getY
 
     public void visit(){
         if(this.visited == false){
@@ -44,11 +44,14 @@ public class Vertex {
 
     public ArrayList<String> getAllAdjacentOpenPaths(){
         ArrayList<String> endVertices = new ArrayList<String>();
+        // for each this vertex's edges
         for(int i=0; i < this.edges.size(); i++){
             String endId;
             Edge currentEdge = this.edges.get(i);
+            // check to see if the path is open
             if(currentEdge.isPathOpen()){
                 endId = currentEdge.getEndVertexId();
+                // if it is add it to arraylist
                 endVertices.add(endId);
             }
         }
@@ -57,10 +60,12 @@ public class Vertex {
 
     public ArrayList<String> getAllAdjacentEndVertices(){
         ArrayList<String> endVertices = new ArrayList<String>();
+        // for each of this vertex's eges
         for(int i=0; i < this.edges.size(); i++){
             String endId;
             Edge currentEdge = this.edges.get(i);
             endId = currentEdge.getEndVertexId();
+            // add to the arraylist regardless of path status
             endVertices.add(endId);
         }
         return endVertices;

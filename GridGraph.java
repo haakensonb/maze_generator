@@ -107,17 +107,21 @@ public class GridGraph extends Graph {
     } // end buildGridGraph
 
     public void reset(){
+        // reset the vertices
         this.vertices = new HashMap<>();
+        // reset visited vertices
         this.visitedVertices = new StringStack();
+        // reset vertices to animate
         this.verticesToAnimate = new ArrayList<Vertex>();
+        // build new graph
         this.buildGridGraph(10, 10);
+        // and carve new maze
         this.createMazeWithDFS("V0");
     }
 
     public static void main(String[] args){
         GridGraph g = new GridGraph(4, 4);
         g.createMazeWithDFS("V0");
-
 
         // iterate through the vertices using for each loop
         for(Map.Entry<String, Vertex> vertex : g.vertices.entrySet()){

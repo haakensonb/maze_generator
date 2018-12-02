@@ -2,16 +2,13 @@ import java.util.Map;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.ArrayList;
-// should change to use own queue at some point
 import java.util.LinkedList;
-import java.util.Queue;
 
 public abstract class Graph {
     protected HashMap<String, Vertex> vertices = new HashMap<>();
     // stack for backtracking
     protected StringStack visitedVertices = new StringStack();
-    // queue for animating
-    // protected Queue<Vertex> vertexQueue = new LinkedList<>();
+    // array to keep track of vertices in the order they should be animated
     protected ArrayList<Vertex> verticesToAnimate = new ArrayList<Vertex>();
 
     public void createMazeWithDFS(String currentVertexId){
@@ -22,8 +19,7 @@ public abstract class Graph {
         // mark the current vertex as visited
         currentVertex.visit();
 
-        // add the current vertex to the queue
-        // this.vertexQueue.add(currentVertex);
+        // if the current vertex isn't already in the animation array then add it
         if(!this.verticesToAnimate.contains(currentVertex)){
             this.verticesToAnimate.add(currentVertex);
         }
@@ -44,13 +40,13 @@ public abstract class Graph {
             // push the current vertex id to the stack
             this.visitedVertices.push(currentVertex.getId());
 
-
             // open the path from this vertex to the next
             currentVertex.openEdgePath(currentVertexId, currentEndVertex.getId());
             // open the path back the other way, from the end vertex to this vertex
             currentEndVertex.openEdgePath(currentEndVertex.getId(), currentVertexId);
             // make recursive call so that algorithm will move to visit the end vertex that was choosen
             createMazeWithDFS(currentEndVertex.getId());
+
         // otherwise all the adjacent vertices have already been visited
         // this means we are at a dead end and must backtrack
         } else{
