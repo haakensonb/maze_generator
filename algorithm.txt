@@ -436,5 +436,184 @@ Steps:
 Class MazePanel
 --------------------
 
+Method Name: MazePanel (constructor)
+Goals: To be called when MazePanel object is created
+Input: GridGraph graph
+Output: N/A
+Steps:
+    -Set the background color of this panel to black
+    -Set the value of graph equal to the graph parameter passed in
+
+Method Name: paintComponent
+Goals: To be called by Swing for animation. Will either show animation of Maze being generated or will just show maze as is
+Input: g parameter of type Graphics provided by Swing 
+Output: N/A
+Steps:
+    -call super on paintComponent and pass in g (as per Swing docs)
+    -typecast g to Graphics2D so that we also have this type of object for drawing lines with Swing
+    -set color of graphics to white and set line stroke size
+    -set width and height to the same as normal vertex
+    -check if the maze is supposed to be showing an animation and there are verticesToAnimate
+    -if there are, then start looping through the verticesToAnimate up to count variable
+    -for each iteration use graphics object to draw the current vertex
+    -also get all of the currentVertex's adjacent vertices and start looping through them
+    -for each adjacent vertice draw a line between the current vertex and the adjacent vertex
+    -otherwise if the animation isn't being shown and there are vertices
+    -loop through every vertex stored in the graph's hashmap
+    -for each vertex use graphics object to draw the vertex
+    -also get all the adjacent verices for the currentVertex and draw a line between the two
+
+
 Class Maze
 --------------------
+
+Method Name: Maze (constructor)
+Goals: To be called when Maze object is created. Takes care of setting up JFrame and JPanels for animation
+Input: N/A
+Output: N/A
+Steps:
+    -call super with a string for the title of the JFrame
+    -set default close operation and size for JFrame
+    -set JFrame as visible and in focus
+    -set layout as BorderLayout
+    -add key listener for arrow key movement
+    -call initCenterPanel to create center panel that holds MazePanel and PlayerPanel
+    -call initBottomPanel to create panel for button on the bottom
+    -make sure that the MazePanel is set to visible
+    -call animate to start animation of maze being built right when Maze Object is created
+
+Method Name: initBottomPanel
+Goals: To create the panel that goes on the bottom of the screen containing a button for generating a new maze
+Input: N/A
+Output: N/A
+Steps:
+    -create new Jpanel for bottomPanel
+    -set bottomPanel layout to grid layout
+    -create JButton called generate
+    -add action listener to the button so button presses can be handled
+    -add button to bottomPanel
+    -add bottomPanel to the bottom part of the JFrame surface
+
+Method Name: initCenterPanel
+Goals: To create the center panel that actually shows the maze
+Input: N/A
+Output: N/A
+Steps:
+    -set the value of graph equal to a new GridGraph of desired size
+    -call createMazeWithDFS on the graph to carve out a maze
+    -set the value of surface to the JFrame's content pane
+    -set the value of layeredPanel equal to a new JLayeredPanel
+    -set the value of mazePanel to a new MazePanel that takes the graph as a parameter
+    -set bounds for the panel so that it will be the right size and be rendered by Swing
+    -add mazePanel to the layeredPanel at level 1 so that things can be overlayed on top of it
+    -set player value to a new Player Object that starts at the first vertex
+    -set winVertex equal to the last vertex from the graph
+    -set playerPanel equal to a new PlayerPanel that takes player and winVertex as parameters
+    -set bounds on playerPanel so that it will be rendered
+    -set the background on player panel to transparent because it will be overlayed on top of MazePanel and we don't need to see it
+    -add the playerPanel to the layeredPanel on top of mazePanel so that player can be seen on maze
+    -add the layeredPanel to the surface of the JFrame in the center
+    -make sure that mazePanel and playerPanel are invisible for now until proper animation timing
+
+Method Name: animate
+Goals: To show the passages of the maze being built as an animation rather than all just appearing at once
+Input: N/A
+Output: N/A
+Steps:
+    -get the number of verticesToAnimate and store as an int
+    -check to make sure that the maze isn't already showing an animation
+    -if it isn't then toggleShowing animation on
+    -also make sure that count is reset to 0
+    -then create a new Timer object that will do something repeatedly after the desired amount of time has passed
+    -each tick of the timer increment the count and check to see if count has reached the end of the verticesToAnimate
+    -if it has reached the end then stop the timer, toggle the animation off, and set playerPanel to visible so that player now appears
+    -also explictly tell Swing to repaint the screen every tick of the timer
+    -finally tell the timer to actually start
+
+Method Name: toggleShowingAnimation
+Goals: To toggle the boolean value of showingAnimation
+Input: N/A
+Output: N/A
+Steps:
+    -check if showingAnimation equals true
+    -if it is true, then set it to false
+    -check if showingAnimation is false
+    -if it is false, then set it to true
+
+Method Name: actionPerformed
+Goals: Called when a button is pressed, used to add functionality to "Generate" button
+Input: ActionEvent e
+Output: N/A
+Steps:
+    -check if the action being passed in is for the "Generate" button
+    -if it is, check to make sure that maze isn't already in process of animating
+    -if it isn't already animating then make sure the playerPanel is hidden
+    -also call reset on the graph so it creates a new on
+    -also move the player back to the starting position
+    -make sure the win flag is reset
+    -make sure that mazePanel can be seen again
+    -call animate to start showing the new maze being generated
+
+Method Name: keyPressed
+Goals: Called when a key is pressed, used to move player position
+Input: KeyEvent e
+Output: N/A
+Steps:
+    -check to make sure the player hasn't already won
+    -if they haven't then call handlePlayerMovement and pass on the event
+    -check to see if there is now a winner
+    -if there is, show win dialog
+
+Method Name: handlePlayerMovement
+Goals: Determines which key was pressed and calls method for moving in corresponding direction
+Input: KeyEvent e
+Output: N/A
+Steps:
+    -get the key code from the event and store as int
+    -check the value of the keycode
+    -if it was the up arrow key call tryMove with "UP" parameter
+    -if it was the right arrow key, call tryMove with "RIGHT" parameter
+    -if it was the down arrow key, call tryMove with "DOWN" parameter
+    -if it was the left arrow key, call tryMove with "LEFT" parameter
+
+Method Name: tryMove
+Goals: To move the player in the specified direction if there is an open path to an adjacent vertex in that direction
+Input: String direction
+Output: N/A
+Steps:
+    -get the player's current vertex and all the open paths from this vertex
+    -get the player's current positioning
+    -loop through each available path
+    -get the positioning of the current possible adjacent vertex
+    -if the direction is "UP" check if the possible y position of the vertex is less than the player's y position
+    -if it is, this means the possible vertex is above the player and the player's position can be moved to it
+    -if the direction is "RIGHT" check to see if the possible x position is greater than the player's x position
+    -if it is, then move the player to this new location
+    -if the direction is "DOWN" check to see if the possible y position is greater than the player's y position
+    -if it is, then move the player to this new location
+    -if the direction is "LEFT" check to see if the possible x is less than the player's x position
+    -if it is, then move the player to this new location
+    -if there are no adjacent vertices that meet the direction requirement then do nothing
+
+Method Name: winCheck
+Goals: To check and see if the player has made it to the end of the maze
+Input: N/A
+Output: boolean true/false based on whether or not the player has found the end of the maze
+Steps:
+    -check if the player's x position equals the x position of the winVertex
+    -check if the player's y position equals the y position of the winVertex
+    -if these two things are true then set winnerFound to true and return true
+    -otherwise just return false
+
+Method Name: isPlayerPathOpen
+Goals: To check if a vertex has an open path to another specified vertex
+Input: String currentVertexId, String destinationVertexId
+Output: boolean true/false
+Steps:
+    -get the currentVertex using currentVertexId
+    -get all adjacentOpenPaths for the current vertex
+    -check if the arraylist of open paths has the destinationVertexId in it
+    -if it does, then return true
+    -otherwise return false
+
+
