@@ -3,11 +3,10 @@ bhaakens
 
 
 TODO:
-    -add areas for numOfRows/Columns
+    -add UI for changing numOfRows/Columns
     -clean up gridGraph, add parameters for positioning so that it plays nice with width/height
     -make vertex/path size correspond to size of window?
     -think of way to make line drawing more effient
-    -finish documentation/uml
 
 
 Class Edge
