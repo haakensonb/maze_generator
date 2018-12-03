@@ -346,8 +346,92 @@ Steps:
 Class Player
 --------------------
 
+Method Name: Player (constructor)
+Goals: To be called when Player object is created
+Input: int x, int y, int width, int height, string currentVertexId
+Output: N/A
+Steps:
+    -Set value of x equal to parameter x
+    -Set value of y equal to parameter y
+    -Set value of width equal to parameter width
+    -Set value of height equal to parameter height
+    -Set value of currentVertexId equal to parameter currentVertexId
+
+Method Name: getX
+Goals: To return the x position of Player
+Input: N/A
+Output: int x
+Steps:
+    -Simply return the value of Player's x property
+
+Method Name: getY
+Goals: To return the Y position of Player
+Input: N/A
+Output: int Y
+Steps:
+    -Simply return the value of Player's y property
+
+Method Name: getWidth
+Goals: To return the width of Player
+Input: N/A
+Output: int width
+Steps:
+    -Simply return the value of Player's width property
+
+Method Name: getHeight
+Goals: To return the height of Player
+Input: N/A
+Output: int heigth
+Steps:
+    -Simply return the value of Player's height property
+
+Method Name: getCurrentVertexId
+Goals: To return the currentVertexId of Player
+Input: N/A
+Output: string currentVertexId
+Steps:
+    -Simply return the value of Player's currentVertexId property
+
+Method Name: setCurrentVertexId
+Goals: To change the value of currentVertexId to a new string id
+Input: string currentVertexId
+Output: N/A
+Steps:
+    -Set the value of Player's currentVertexId property equal to parameter currentVertexId
+
+Method Name: movePlayer
+Goals: To move the player to a new position on the screen
+Input: int newX, int newY, string newVertexId
+Output: N/A
+Steps:
+    -Set the value of Player's x property equal to newX
+    -Set the value of Player's y property equal to newY
+    -Set the value of Player's currentVertexId property equal to newVertexId
+
+
 Class PlayerPanel
 --------------------
+
+Method Name: PlayerPanel (constructor)
+Goals: To be called when PlayerPanel object is created
+Input: Player player, Vertex winVertex
+Output: N/A
+Steps:
+    -Set the value of PlayerPanel's player property equal to the player parameter passed in
+    -Set the value of PlayerPanel's winVertex property equal to the winVertex parameter
+
+Method Name: paintComponent
+Goals: Swing calls this method for animation. This method will create two colored squares on the screen.
+       One square is for the player and the other represents the end of the maze
+Input: parameter g of type Graphics that Swing will pass in automatically
+Output: N/A
+Steps:
+    -call super on paintComponent and pass in g (as per Swing documentation)
+    -set color of graphics to green for painting win vertex
+    -call fillRect on g and pass in the x,y,width,height properties of winVertex
+    -change color to red for player square
+    -call fillRect and pass in position info from player
+
 
 Class MazePanel
 --------------------
